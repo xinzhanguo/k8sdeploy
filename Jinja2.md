@@ -6,3 +6,7 @@ cd k8s
 source bin/activate
 pip install Jinja2
 ```
+
+```
+pip install pyyaml
+```
