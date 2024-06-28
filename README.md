@@ -49,6 +49,9 @@ https://dl.k8s.io/v1.30.2/bin/linux/amd64/kubelet
 https://dl.k8s.io/v1.30.2/bin/linux/amd64/mounter
 ```
 
+
+
+
 ## etcd
 ```
 etcd.sh
@@ -63,10 +66,12 @@ https://github.com/containerd/cri/blob/master/docs/installation.md
 
 tar zxvf cri-containerd-cni-1.7.18-linux-amd64.tar.gz -C /
 ```
-
-runc
+/etc/containerd/config.toml
+change:
 ```
-https://github.com/opencontainers/runc/
+    sandbox_image = "private.register/google_containers/pause:3.8"
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors."private.register"]
+  endpoint = ["http://private.register"]
 ```
 
 ## api server
