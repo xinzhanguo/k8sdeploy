@@ -54,10 +54,21 @@ https://dl.k8s.io/v1.30.2/bin/linux/amd64/mounter
 etcd.sh
 ```
 
+## register
+https://hub.docker.com/_/registry
+
 ## containerd
 ```
 https://github.com/containerd/cri/blob/master/docs/installation.md
+
+tar zxvf cri-containerd-cni-1.7.18-linux-amd64.tar.gz -C /
 ```
+
+runc
+```
+https://github.com/opencontainers/runc/
+```
+
 ## api server
 ```
 api.sh
