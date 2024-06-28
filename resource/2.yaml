@@ -1,6 +1,6 @@
 ETCD_DATA_DIR: /data/etcd
 bin_dir: /usr/sbin/local
-inventory_hostname: 10.0.0.1
+inventory_hostname: 10.0.0.2
 inventory_name: "a1"
 ca_dir: /etc/k8s/pki
 ETCD_NODES: 'etcd-1=https://10.0.0.1:2380,etcd-2=https://10.0.0.2:2380,etcd-3=https://10.0.0.3:2380'
