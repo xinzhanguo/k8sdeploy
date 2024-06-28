@@ -9,5 +9,8 @@ f = open(fname+'.j2', 'r')
 c = f.read()
 t = env.from_string(c)
 result = t.render(groups=group.groups)
+c = result
+if type(result)==dict:
+    c = json.dumps(result)
 with open(fname, "w") as fh:
-    fh.write(json.dumps(result))
+    fh.write(c)
