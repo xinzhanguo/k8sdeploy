@@ -81,7 +81,35 @@ api.sh
 
 ## manager
 ```
-manager.sh
+#manager.sh
+- name: 创建 kube-controller-manager证书与私钥
+cfssl gencert \
+        -ca=ca.pem \
+        -ca-key=ca-key.pem \
+        -config=ca-config.json \
+        -profile=kubernetes kube-controller-manager-csr.json | cfssljson -bare kube-controller-manager
+- name: 设置集群参数
+kubectl config set-cluster kubernetes \
+        --certificate-authority=ca.pem \
+        --embed-certs=true \
+        --server=https://127.0.0.1:8433 \
+        --kubeconfig=kube-controller-manager.kubeconfig
+- name: 设置认证参数
+kubectl config set-credentials system:kube-controller-manager \
+        --client-certificate=kube-controller-manager.pem \
+        --client-key=kube-controller-manager-key.pem \
+        --embed-certs=true \
+        --kubeconfig=kube-controller-manager.kubeconfig
+
+- name: 设置上下文参数
+kubectl config set-context default \
+        --cluster=kubernetes \
+        --user=system:kube-controller-manager \
+        --kubeconfig=kube-controller-manager.kubeconfig
+
+- name: 选择默认上下文
+kubectl config use-context default \
+   --kubeconfig=kube-controller-manager.kubeconfig
 ```
 
 ## scedule
