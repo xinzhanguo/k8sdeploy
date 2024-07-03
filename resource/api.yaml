@@ -1,0 +1,7 @@
+bin_dir: /usr/local/bin
+inventory_hostname: $(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' |cut -d/ -f1 | head -n1)
+ca_dir: /etc/kubernetes/pki
+ETCD_ENDPOINTS: https://10.0.0.1:2379,https://10.0.0.2:2379,https://10.0.0.3:2379
+SECURE_PORT: 6443
+SERVICE_CIDR: 10.1.0.0/16
+NODE_PORT_RANGE: 30000-32767
