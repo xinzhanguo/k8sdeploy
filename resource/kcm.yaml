@@ -1,0 +1,5 @@
+SERVICE_CIDR: 10.1.0.0/16
+ca_dir: /etc/kubernetes/pki
+bin_dir: /usr/local/bin
+CLUSTER_CIDR: 10.2.0.0/16
+NODE_CIDR_LEN: 24
