@@ -115,8 +115,46 @@ kubectl config use-context default \
 ## scedule
 ```
 scedule.sh
+- name: 准备kube-scheduler 证书签名请求
+  template: src=kube-scheduler-csr.json.j2 dest={{ cluster_dir }}/ssl/kube-scheduler-csr.json
+
+- name: 创建 kube-scheduler证书与私钥
+cfssl gencert \
+        -ca=ca.pem \
+        -ca-key=ca-key.pem \
+        -config=ca-config.json \
+        -profile=kubernetes kube-scheduler-csr.json | cfssljson -bare kube-scheduler
+
+- name: 设置集群参数
+kubectl config set-cluster kubernetes \
+        --certificate-authorityca.pem \
+        --embed-certs=true \
+        --server=https://127.0.0.1:8433 \
+        --kubeconfig=kube-scheduler.kubeconfig
+
+- name: 设置认证参数
+kubectl config set-credentials system:kube-scheduler \
+        --client-certificate=kube-scheduler.pem \
+        --client-key=kube-scheduler-key.pem \
+        --embed-certs=true \
+        --kubeconfig=kube-scheduler.kubeconfig
+
+- name: 设置上下文参数
+kubectl config set-context default \
+        --cluster=kubernetes \
+        --user=system:kube-scheduler \
+        --kubeconfig=kube-scheduler.kubeconfig
+
+- name: 选择默认上下文
+kubectl config use-context default \
+   --kubeconfig=kube-scheduler.kubeconfig
 ```
 
+```
+systemctl daemon-reload
+systemctl enanble kube-controller-manager
+systemctl start kube-controller-manager
+```
 ## kube-proxy
 ```
 proxy.sh
